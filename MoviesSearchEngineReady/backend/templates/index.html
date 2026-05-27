@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies Search Engine</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="hero">
+        <div>
+            <p class="badge">Movies Data Mining Project</p>
+            <h1>Movies Search Engine</h1>
+            <p class="subtitle">TF-IDF ranking, query expansion, filters, clustering, recommendations, and analytics using the preprocessed movies dataset.</p>
+        </div>
+        <div class="hero-card">
+            <span>{{ stats.total }}</span>
+            <small>Total Documents</small>
+        </div>
+    </div>
+
+    <section class="stats-grid">
+        <div class="stat"><b>{{ stats.movies }}</b><span>Movies</span></div>
+        <div class="stat"><b>{{ stats.shows }}</b><span>Other Types</span></div>
+        <div class="stat"><b>{{ stats.avg_rating }}</b><span>Average Rating</span></div>
+        <div class="stat"><b>{{ stats.min_year }} - {{ stats.max_year }}</b><span>Year Range</span></div>
+    </section>
+
+    <main class="layout">
+        <section class="panel search-panel">
+            <h2>Search</h2>
+            <div class="search-box">
+                <input id="query" type="text" placeholder="Try: crime drug, love story, war soldier, magic school...">
+                <button onclick="runSearch()">Search</button>
+            </div>
+            <div class="filters">
+                <select id="typeFilter">
+                    {% for item in types %}
+                    <option value="{{ item }}">{{ item }}</option>
+                    {% endfor %}
+                </select>
+                <input id="yearFrom" type="number" placeholder="From year">
+                <input id="yearTo" type="number" placeholder="To year">
+                <input id="minRating" type="number" min="0" max="10" step="0.1" placeholder="Min rating">
+                <label class="toggle"><input id="expand" type="checkbox" checked> Query expansion</label>
+            </div>
+            <div id="queryInfo" class="query-info"></div>
+            <div id="results" class="results"></div>
+        </section>
+
+        <aside class="panel side-panel">
+            <h2>Recommendation</h2>
+            <input id="recommendTitle" type="text" placeholder="Enter a movie title">
+            <button class="wide" onclick="getRecommendations()">Find Similar Movies</button>
+            <div id="recommendations" class="mini-results"></div>
+        </aside>
+    </main>
+
+    <section class="panel analytics">
+        <div class="section-title">
+            <h2>Analytics & Data Mining</h2>
+            <button onclick="loadAnalytics()">Load Analytics</button>
+        </div>
+        <div class="charts-grid">
+            <div class="chart-card"><canvas id="typeChart"></canvas></div>
+            <div class="chart-card"><canvas id="ratingChart"></canvas></div>
+            <div class="chart-card"><canvas id="yearChart"></canvas></div>
+        </div>
+        <div class="tables-grid">
+            <div>
+                <h3>Top Rated</h3>
+                <div id="topRated"></div>
+            </div>
+            <div>
+                <h3>K-Means Clusters</h3>
+                <div id="clusters"></div>
+            </div>
+            <div>
+                <h3>Network Summary</h3>
+                <div id="network"></div>
+            </div>
+        </div>
+    </section>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
